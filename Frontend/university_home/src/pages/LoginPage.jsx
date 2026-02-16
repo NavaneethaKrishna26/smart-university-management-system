@@ -1,93 +1,189 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ErrorAlert from '../components/ui/ErrorAlert';
+import { useToast } from '../context/ToastContext';
 import Loader from '../components/ui/Loader';
+import ErrorAlert from '../components/ui/ErrorAlert';
 
 function LoginPage() {
   const { login } = useAuth();
+  const toast = useToast();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  
   const [role, setRole] = useState('STUDENT');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const queryRole = searchParams.get('role');
-    if (queryRole === 'FACULTY' || queryRole === 'STUDENT' || queryRole === 'ADMIN') {
+    if (['STUDENT', 'FACULTY', 'ADMIN'].includes(queryRole)) {
       setRole(queryRole);
     }
   }, [searchParams]);
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!username.trim()) {
+      newErrors.username = 'Username is required';
+    }
+    
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+    
     setError('');
-    setSubmitting(true);
+    setLoading(true);
+    
     try {
-      await login({ username, password, role }); // POST /api/auth/login[file:2]
-    } catch (e) {
-      setError('Invalid credentials or server error');
+      await login({ username: username.trim(), password, role });
+      toast.addToast(`Welcome ${role.toLowerCase()}!`, 'success');
+    } catch (err) {
+      const errorMessage = err.message || 'Login failed. Please try again.';
+      setError(errorMessage);
+      toast.addToast(errorMessage, 'error');
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="page page-center">
-      <div className="card card-wide">
-        <h1>Login</h1>
-        <p className="muted">Sign in to your Smart University account.</p>
-        <div className="role-toggle">
-          <button
-            type="button"
-            className={`toggle-btn ${role === 'STUDENT' ? 'active' : ''}`}
-            onClick={() => setRole('STUDENT')}
-          >
-            Student
-          </button>
-          <button
-            type="button"
-            className={`toggle-btn ${role === 'FACULTY' ? 'active' : ''}`}
-            onClick={() => setRole('FACULTY')}
-          >
-            Faculty
-          </button>
-          <button
-            type="button"
-            className={`toggle-btn ${role === 'ADMIN' ? 'active' : ''}`}
-            onClick={() => setRole('ADMIN')}
-          >
-            Admin
-          </button>
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-header">
+            <div className="logo-small">
+              <div className="logo-mark-small">SU</div>
+            </div>
+            <h1>Welcome back</h1>
+            <p className="login-subtitle">
+              Sign in to your Smart University account
+            </p>
+          </div>
+
+          <div className="role-selector">
+            <button
+              className={`role-btn ${role === 'STUDENT' ? 'active' : ''}`}
+              onClick={() => setRole('STUDENT')}
+              disabled={loading}
+            >
+              <div className="role-icon">👨‍🎓</div>
+              <span>Student</span>
+              <div className="role-subtitle">Submit assignments</div>
+            </button>
+            
+            <button
+              className={`role-btn ${role === 'FACULTY' ? 'active' : ''}`}
+              onClick={() => setRole('FACULTY')}
+              disabled={loading}
+            >
+              <div className="role-icon">👨‍🏫</div>
+              <span>Faculty</span>
+              <div className="role-subtitle">Mark attendance</div>
+            </button>
+            
+            <button
+              className={`role-btn ${role === 'ADMIN' ? 'active' : ''}`}
+              onClick={() => setRole('ADMIN')}
+              disabled={loading}
+            >
+              <div className="role-icon">⚙️</div>
+              <span>Admin</span>
+              <div className="role-subtitle">View reports</div>
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="login-form">
+            <ErrorAlert message={error} />
+            
+            <div className="form-group">
+              <label className="form-label">Username or Email</label>
+              <input
+                type="text"
+                className={`form-input ${errors.username ? 'error' : ''}`}
+                placeholder="Enter your username or email"
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  if (errors.username) setErrors({});
+                }}
+                disabled={loading}
+                autoComplete="username"
+              />
+              {errors.username && <span className="error-message">{errors.username}</span>}
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                className={`form-input ${errors.password ? 'error' : ''}`}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (errors.password) setErrors({});
+                }}
+                disabled={loading}
+                autoComplete="current-password"
+              />
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
+
+            <button 
+              type="submit" 
+              className="btn btn-primary btn-full"
+              disabled={loading || !username || !password}
+            >
+              {loading ? (
+                <>
+                  <Loader size="sm" />
+                  Signing in...
+                </>
+              ) : (
+                `Sign in as ${role}`
+              )}
+            </button>
+          </form>
+
+          <div className="login-footer">
+            <p className="forgot-password">
+              <button 
+                type="button" 
+                className="link-button"
+                disabled={loading}
+              >
+                Forgot password?
+              </button>
+            </p>
+            <p className="need-help">
+              Need help? <a href="mailto:support@smartuniv.edu" className="link">Contact support</a>
+            </p>
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="form">
-          <ErrorAlert message={error} />
-          <label className="form-control">
-            <span className="form-label">Username</span>
-            <input
-              className="form-input"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              autoComplete="username"
-            />
-          </label>
-          <label className="form-control">
-            <span className="form-label">Password</span>
-            <input
-              type="password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
-          </label>
-          <button type="submit" className="btn btn-primary btn-full" disabled={submitting}>
-            {submitting ? <Loader /> : `Login as ${role}`}
-          </button>
-        </form>
+
+        <div className="login-illustration">
+          <div className="illustration-circle"></div>
+          <div className="illustration-content">
+            <h2>Smart workflows for smarter learning</h2>
+            <p>Everything you need in one beautiful interface</p>
+          </div>
+        </div>
       </div>
     </div>
   );

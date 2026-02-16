@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';  // Remove BrowserRouter
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import CoursesPage from '../pages/CoursesPage';
@@ -18,48 +18,30 @@ import ProtectedRoute from '../components/layout/ProtectedRoute';
 function AppRouter() {
   return (
     <Routes>
-      {/* Public */}
+      {/* Public routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/courses" element={<CoursesPage />} />
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Student */}
-      <Route
-        path="/student"
-        element={<ProtectedRoute allowedRoles={['STUDENT']} />}
-      >
+      {/* Protected routes */}
+      <Route path="/student/*" element={<ProtectedRoute allowedRoles={['STUDENT']} />}>
         <Route index element={<StudentDashboard />} />
         <Route path="assignments" element={<AssignmentListPage />} />
-        <Route
-          path="assignments/:assignmentId/upload"
-          element={<AssignmentUploadPage />}
-        />
-        <Route
-          path="assignments/:submissionId/feedback"
-          element={<AssignmentFeedbackPage />}
-        />
+        <Route path="assignments/:assignmentId/upload" element={<AssignmentUploadPage />} />
+        <Route path="assignments/:submissionId/feedback" element={<AssignmentFeedbackPage />} />
       </Route>
 
-      {/* Faculty */}
-      <Route
-        path="/faculty"
-        element={<ProtectedRoute allowedRoles={['FACULTY']} />}
-      >
+      <Route path="/faculty/*" element={<ProtectedRoute allowedRoles={['FACULTY']} />}>
         <Route index element={<FacultyDashboard />} />
         <Route path="attendance" element={<AttendancePage />} />
         <Route path="attendance/history" element={<AttendanceHistoryPage />} />
       </Route>
 
-      {/* Admin (optional) */}
-      <Route
-        path="/admin"
-        element={<ProtectedRoute allowedRoles={['ADMIN']} />}
-      >
+      <Route path="/admin/*" element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
         <Route index element={<AdminDashboard />} />
       </Route>
 
-      {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
