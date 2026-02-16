@@ -33,9 +33,10 @@ public class FacultyController {
         List<ClassDTO> classes = facultyService.getClassesByFacultyUsername(username);
         return ResponseEntity.ok(new ApiResponse(true, "Classes retrieved successfully", classes));
     }
-    
+
     @GetMapping("/classes/{classId}/students")
-    public ResponseEntity<ApiResponse> getStudentsByClass(@PathVariable Long classId) {
+    public ResponseEntity<ApiResponse> getStudentsByClass(
+            @PathVariable("classId") Long classId) {
         List<StudentDTO> students = studentService.getStudentsByClassId(classId);
         return ResponseEntity.ok(new ApiResponse(true, "Students retrieved successfully", students));
     }
