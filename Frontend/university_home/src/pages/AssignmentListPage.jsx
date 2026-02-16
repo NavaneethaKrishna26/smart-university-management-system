@@ -3,9 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import { fetchStudentAssignments } from '../services/assignmentsService';
 import Loader from '../components/ui/Loader';
 import ErrorAlert from '../components/ui/ErrorAlert';
-import { Link } from 'react-router-dom';
+import AssignmentCard from '../components/assignments/AssignmentCard';
 
-function StudentDashboard() {
+function AssignmentListPage() {
   const { token } = useAuth();
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,40 +31,20 @@ function StudentDashboard() {
 
   return (
     <div className="page">
-      <h1>Student Dashboard</h1>
-      <p className="muted">View your assignments and AI feedback.</p>
+      <h1>Assignments</h1>
+      <p className="muted">Upload your work and view AI feedback.</p>
       {loading && <Loader />}
       <ErrorAlert message={error} />
       <div className="cards-grid">
         {assignments.map((a) => (
-          <article key={a.id} className="card">
-            <h3>{a.title}</h3>
-            <p>{a.courseName}</p>
-            <p className="card-meta">Due: {a.dueDate}</p>
-            <div className="card-actions">
-              <Link
-                to={`/student/assignments/${a.id}/upload`}
-                className="btn btn-ghost"
-              >
-                Upload
-              </Link>
-              {a.submissionId && (
-                <Link
-                  to={`/student/assignments/${a.submissionId}/feedback`}
-                  className="btn btn-primary"
-                >
-                  View Feedback
-                </Link>
-              )}
-            </div>
-          </article>
+          <AssignmentCard key={a.id} assignment={a} />
         ))}
-        {!loading && !error && assignments.length === 0 && (
-          <p className="muted">No assignments available.</p>
-        )}
       </div>
+      {!loading && !error && assignments.length === 0 && (
+        <p className="muted">No assignments available.</p>
+      )}
     </div>
   );
 }
 
-export default StudentDashboard;
+export default AssignmentListPage;
