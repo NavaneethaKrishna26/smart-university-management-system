@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "faculty")
@@ -32,8 +33,9 @@ public class Faculty {
     
     @Column(name = "phone_number")
     private String phoneNumber;
-    
+
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<ClassEntity> classes = new HashSet<>();
     
     @Column(name = "is_active")

@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "classes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class ClassEntity {
     
     @Id
@@ -30,9 +31,10 @@ public class ClassEntity {
     private String semester;
     
     private String department;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
+    @JsonBackReference
     private Faculty faculty;
     
     @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
