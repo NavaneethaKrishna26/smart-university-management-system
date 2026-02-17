@@ -1,32 +1,51 @@
-import React, { useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Header() {
   const { role, logout } = useAuth();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
 
   return (
     <header className="header">
       <div className="header-inner">
         <Link to="/" className="logo">
-          <div className="logo-mark">SU</div>
+          <div className="logo-mark">VU</div>
           <div>
-            <div className="logo-title">Smart University</div>
-            <div className="logo-subtitle">Learn. Innovate. Lead.</div>
+            <div className="logo-title">Veltech University</div>
+            <div className="logo-subtitle">Learn Innovate Lead</div>
           </div>
         </Link>
-        
+
         <nav className="nav">
-          <NavLink to="/" className="nav-link">Home</NavLink>
-          <NavLink to="/about" className="nav-link">About</NavLink>
-          <NavLink to="/courses" className="nav-link">Courses</NavLink>
-          {role === 'STUDENT' && <NavLink to="/student" className="nav-link">Dashboard</NavLink>}
-          {role === 'FACULTY' && <NavLink to="/faculty" className="nav-link">Dashboard</NavLink>}
-          {role === 'ADMIN' && <NavLink to="/admin" className="nav-link">Admin</NavLink>}
+          <NavLink to="/" className="nav-link">
+            Home
+          </NavLink>
+          <NavLink to="/about" className="nav-link">
+            About
+          </NavLink>
+          <NavLink to="/courses" className="nav-link">
+            Courses
+          </NavLink>
+
+          {role === "STUDENT" && (
+            <NavLink to="/student" className="nav-link">
+              Dashboard
+            </NavLink>
+          )}
+
+          {role === "FACULTY" && (
+            <NavLink to="/faculty" className="nav-link">
+              Dashboard
+            </NavLink>
+          )}
+
+          {role === "ADMIN" && (
+            <NavLink to="/admin" className="nav-link">
+              Admin
+            </NavLink>
+          )}
         </nav>
-        
+
         <div className="header-actions">
           {role ? (
             <>
@@ -36,14 +55,9 @@ function Header() {
               </button>
             </>
           ) : (
-            <>
-              <Link to="/login?role=STUDENT" className="btn btn-ghost">
-                Student
-              </Link>
-              <Link to="/login?role=FACULTY" className="btn btn-primary">
-                Faculty
-              </Link>
-            </>
+            <Link to="/login" className="btn btn-primary">
+              Login
+            </Link>
           )}
         </div>
       </div>
