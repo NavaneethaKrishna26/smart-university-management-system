@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import logo from "../../assets/logo.jpeg";
 
 function Header() {
   const { role, logout } = useAuth();
@@ -8,14 +9,15 @@ function Header() {
   return (
     <header className="header">
       <div className="header-inner">
-        <Link to="/" className="logo">
-          <div className="logo-mark">VU</div>
-          <div>
-            <div className="logo-title">Veltech University</div>
-            <div className="logo-subtitle">Learn Innovate Lead</div>
-          </div>
-        </Link>
+        {/* Logo + College Name */}
+        <div className="logo">
+          <Link to="/" className="logo-link">
+            <img src={logo} alt="Smart University" className="logo-image" />
+            <span className="college-name">Veltech University</span>
+          </Link>
+        </div>
 
+        {/* Navigation */}
         <nav className="nav">
           <NavLink to="/" className="nav-link">
             Home
@@ -26,19 +28,23 @@ function Header() {
           <NavLink to="/courses" className="nav-link">
             Courses
           </NavLink>
+          <NavLink to="/contactpage" className="nav-link">
+            Contact us
+          </NavLink>
+          <NavLink to="/courses" className="nav-link">
+            Placement
+          </NavLink>
 
           {role === "STUDENT" && (
             <NavLink to="/student" className="nav-link">
               Dashboard
             </NavLink>
           )}
-
           {role === "FACULTY" && (
             <NavLink to="/faculty" className="nav-link">
               Dashboard
             </NavLink>
           )}
-
           {role === "ADMIN" && (
             <NavLink to="/admin" className="nav-link">
               Admin
@@ -46,6 +52,7 @@ function Header() {
           )}
         </nav>
 
+        {/* Login / Logout */}
         <div className="header-actions">
           {role ? (
             <>
