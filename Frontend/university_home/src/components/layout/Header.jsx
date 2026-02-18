@@ -31,7 +31,7 @@ function Header() {
           <NavLink to="/contactpage" className="nav-link">
             Contact us
           </NavLink>
-          <NavLink to="/courses" className="nav-link">
+          <NavLink to="/placementpage" className="nav-link">
             Placement
           </NavLink>
 
