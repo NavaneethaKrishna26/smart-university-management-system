@@ -1,4 +1,5 @@
 import React from "react";
+import placementBanner from "../assets/chancellor.jpg"; // ✅ import your image
 
 function PlacementPage() {
   const placementData = [
@@ -9,7 +10,6 @@ function PlacementPage() {
     { name: "Priya Singh", company: "Apple", year: 2026 },
   ];
 
-  // ✅ WORKING LOGO API (Google Favicons - 99% success)
   const companyDomains = [
     "google.com",
     "amazon.com",
@@ -40,12 +40,20 @@ function PlacementPage() {
 
   return (
     <div className="placement-page">
-      <div className="placement-content">
-        <h1>Placement Highlights</h1>
-        <p className="placement-subtitle">
-          Celebrating student success with top companies
-        </p>
+      {/* Top Hero Banner */}
+      <div className="placement-hero">
+        <img
+          src={placementBanner}
+          alt="Placement Banner"
+          className="placement-hero-img"
+        />
+        <div className="placement-hero-text">
+          <h1>Placement Highlights</h1>
+          <p>Celebrating student success with top companies</p>
+        </div>
+      </div>
 
+      <div className="placement-content">
         {/* Placement Table */}
         <div className="placement-table-section">
           <h2>Students Placed This Year</h2>
@@ -90,7 +98,6 @@ function PlacementPage() {
                   />
                 </div>
               ))}
-              {/* Duplicate for seamless loop */}
               {logoUrls.map((logo, idx) => (
                 <div className="marquee-item" key={`dup${idx}`}>
                   <img
