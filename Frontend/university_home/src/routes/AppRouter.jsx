@@ -29,6 +29,7 @@ function AppRouter() {
       <Route path="/placementpage" element={<PlacementPage />} />
 
       {/* Protected routes */}
+      {/* Protected routes */}
       <Route
         path="/student/*"
         element={<ProtectedRoute allowedRoles={["STUDENT"]} />}
