@@ -15,6 +15,7 @@ import AssignmentUploadPage from "../pages/AssignmentUploadPage";
 import AssignmentFeedbackPage from "../pages/AssignmentFeedbackPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
+import PlacementPage from "../pages/PlacementPage";
 
 function AppRouter() {
   return (
@@ -25,6 +26,7 @@ function AppRouter() {
       <Route path="/courses" element={<CoursesPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/contactpage" element={<ContactPage />} />
+      <Route path="/placementpage" element={<PlacementPage />} />
 
       {/* Protected routes */}
       <Route
