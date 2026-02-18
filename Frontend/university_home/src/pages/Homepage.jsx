@@ -6,28 +6,30 @@ function Homepage() {
   return (
     <div className="homepage">
       {/* ================= HERO SECTION ================= */}
-      <section className="hero">
-        <div className="hero-content">
-          <h1>Smart University Management System</h1>
-          <p>
-            A modern platform designed to streamline academic processes, improve
-            communication, and enhance student success.
-          </p>
+      <section className="hero-section container">
+        <div className="hero">
+          <div className="hero-content">
+            <h1>Smart University Management System</h1>
+            <p>
+              A modern platform designed to streamline academic processes,
+              improve communication, and enhance student success.
+            </p>
 
-          <div className="hero-buttons">
-            <Link to="/login" className="btn btn-primary">
-              Login to Portal
-            </Link>
+            <div className="hero-buttons">
+              <Link to="/login" className="btn btn-primary">
+                Login to Portal
+              </Link>
 
-            <Link to="/courses" className="btn btn-outline">
-              Explore Courses
-            </Link>
+              <Link to="/courses" className="btn btn-outline">
+                Explore Courses
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ================= FEATURES SECTION ================= */}
-      <section className="section">
+      <section className="section container">
         <div className="cards-grid">
           <div className="card">
             <h3>Assignment Management</h3>
@@ -64,7 +66,7 @@ function Homepage() {
       </section>
 
       {/* ================= STATISTICS SECTION ================= */}
-      <section className="section stats-section">
+      <section className="section stats-section container">
         <div className="section-header">
           <h2>Our Impact in Numbers</h2>
         </div>
@@ -89,60 +91,110 @@ function Homepage() {
 
       {/* ================= TESTIMONIALS ================= */}
       <section className="section testimonials">
-        <div className="section-header">
-          <h2>What Our Students Say</h2>
-        </div>
+        <div className="section-inner">
+          <div className="section-header">
+            <h2>What Our Students Say</h2>
+            <p className="section-subtitle">
+              Real feedback from students and faculty using the portal every
+              day.
+            </p>
+          </div>
 
-        <div className="testimonial-scroll">
-          <div className="testimonial-track">
-            <div className="testimonial-card">
-              <p>“The portal made assignment submissions extremely easy.”</p>
-              <h4>- Final Year Student</h4>
-            </div>
+          <div className="testimonial-scroll">
+            <div className="testimonial-track">
+              {/* Original testimonials */}
+              <div className="testimonial-card">
+                <p>"The portal made assignment submissions extremely easy."</p>
+                <h4>- Final Year Student</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“Attendance tracking is very accurate and transparent.”</p>
-              <h4>- B.Tech Student</h4>
-            </div>
+              <div className="testimonial-card">
+                <p>"Attendance tracking is very accurate and transparent."</p>
+                <h4>- B.Tech Student</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“Faculty dashboard simplifies grading process.”</p>
-              <h4>- Professor</h4>
-            </div>
+              <div className="testimonial-card">
+                <p>"Faculty dashboard simplifies grading process."</p>
+                <h4>- Professor</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“Real-time notifications helped me never miss deadlines.”</p>
-              <h4>- 3rd Year Student</h4>
-            </div>
+              <div className="testimonial-card">
+                <p>"Real-time notifications helped me never miss deadlines."</p>
+                <h4>- 3rd Year Student</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“User interface is clean and very easy to use.”</p>
-              <h4>- MBA Student</h4>
-            </div>
+              <div className="testimonial-card">
+                <p>"User interface is clean and very easy to use."</p>
+                <h4>- MBA Student</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“Centralized platform improved academic communication.”</p>
-              <h4>- Faculty Member</h4>
-            </div>
+              <div className="testimonial-card">
+                <p>"Centralized platform improved academic communication."</p>
+                <h4>- Faculty Member</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“Secure login system gives confidence in data safety.”</p>
-              <h4>- IT Student</h4>
-            </div>
+              <div className="testimonial-card">
+                <p>"Secure login system gives confidence in data safety."</p>
+                <h4>- IT Student</h4>
+              </div>
 
-            <div className="testimonial-card">
-              <p>“Events and announcements are well organized.”</p>
-              <h4>- Undergraduate Student</h4>
+              <div className="testimonial-card">
+                <p>"Events and announcements are well organized."</p>
+                <h4>- Undergraduate Student</h4>
+              </div>
+
+              {/* DUPLICATE: Exact copy for seamless infinite loop */}
+              <div className="testimonial-card">
+                <p>"The portal made assignment submissions extremely easy."</p>
+                <h4>- Final Year Student</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"Attendance tracking is very accurate and transparent."</p>
+                <h4>- B.Tech Student</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"Faculty dashboard simplifies grading process."</p>
+                <h4>- Professor</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"Real-time notifications helped me never miss deadlines."</p>
+                <h4>- 3rd Year Student</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"User interface is clean and very easy to use."</p>
+                <h4>- MBA Student</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"Centralized platform improved academic communication."</p>
+                <h4>- Faculty Member</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"Secure login system gives confidence in data safety."</p>
+                <h4>- IT Student</h4>
+              </div>
+
+              <div className="testimonial-card">
+                <p>"Events and announcements are well organized."</p>
+                <h4>- Undergraduate Student</h4>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= EVENTS SECTION (Your Existing Component) ================= */}
-      <EventsSection />
+      {/* ================= EVENTS SECTION ================= */}
+      <div className="container">
+        <EventsSection />
+      </div>
 
       {/* ================= CONTACT SECTION ================= */}
-      <section className="section contact-section">
+      <section className="section contact-section container">
         <div className="section-header">
           <h2>Need Assistance?</h2>
         </div>

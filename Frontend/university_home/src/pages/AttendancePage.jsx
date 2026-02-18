@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import {
   fetchFacultyClasses,
   fetchStudentsByClass,
   markAttendance,
-} from '../services/attendanceService';
-import ClassSelector from '../components/attendance/ClassSelector';
-import DatePicker from '../components/ui/DatePicker';
-import StudentAttendanceTable from '../components/attendance/StudentAttendanceTable';
-import Loader from '../components/ui/Loader';
-import ErrorAlert from '../components/ui/ErrorAlert';
+} from "../services/attendanceService";
+import ClassSelector from "../components/attendance/ClassSelector";
+import DatePicker from "../components/ui/DatePicker";
+import StudentAttendanceTable from "../components/attendance/StudentAttendanceTable";
+import Loader from "../components/ui/Loader";
+import ErrorAlert from "../components/ui/ErrorAlert";
 
 function AttendancePage() {
   const { token } = useAuth();
   const [classes, setClasses] = useState([]);
-  const [classId, setClassId] = useState('');
+  const [classId, setClassId] = useState("");
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [students, setStudents] = useState([]);
   const [records, setRecords] = useState({});
   const [loadingClasses, setLoadingClasses] = useState(true);
   const [loadingStudents, setLoadingStudents] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
+  const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -30,8 +30,8 @@ function AttendancePage() {
       try {
         const data = await fetchFacultyClasses(token); // GET /api/faculty/classes[file:2]
         if (mounted) setClasses(data || []);
-      } catch (e) {
-        if (mounted) setError('Failed to load classes');
+      } catch {
+        if (mounted) setError("Failed to load classes");
       } finally {
         if (mounted) setLoadingClasses(false);
       }
@@ -50,7 +50,7 @@ function AttendancePage() {
     }
     let mounted = true;
     setLoadingStudents(true);
-    setError('');
+    setError("");
     async function loadStudents() {
       try {
         const data = await fetchStudentsByClass(classId, token); // GET /api/classes/{id}/students[file:2]
@@ -58,11 +58,11 @@ function AttendancePage() {
         setStudents(data || []);
         const initial = {};
         (data || []).forEach((s) => {
-          initial[s.id] = 'PRESENT';
+          initial[s.id] = "PRESENT";
         });
         setRecords(initial);
-      } catch (e) {
-        if (mounted) setError('Failed to load students');
+      } catch {
+        if (mounted) setError("Failed to load students");
       } finally {
         if (mounted) setLoadingStudents(false);
       }
@@ -81,8 +81,8 @@ function AttendancePage() {
   };
 
   const handleSubmit = async () => {
-    setError('');
-    setSuccessMsg('');
+    setError("");
+    setSuccessMsg("");
     setSaving(true);
     try {
       const payload = {
@@ -94,9 +94,9 @@ function AttendancePage() {
         })),
       };
       await markAttendance(payload, token); // POST /api/attendance[file:2]
-      setSuccessMsg('Attendance saved successfully.');
-    } catch (e) {
-      setError('Failed to save attendance');
+      setSuccessMsg("Attendance saved successfully.");
+    } catch {
+      setError("Failed to save attendance");
     } finally {
       setSaving(false);
     }
@@ -130,7 +130,7 @@ function AttendancePage() {
             onClick={handleSubmit}
             disabled={saving || students.length === 0}
           >
-            {saving ? 'Saving...' : 'Save Attendance'}
+            {saving ? "Saving..." : "Save Attendance"}
           </button>
         </>
       )}

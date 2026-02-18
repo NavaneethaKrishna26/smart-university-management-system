@@ -1,35 +1,36 @@
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import DatePicker from '../components/ui/DatePicker';
-import Select from '../components/ui/Select';
-import Loader from '../components/ui/Loader';
+import React, { useState } from "react";
+//import { useAuth } from '../context/AuthContext';
+import DatePicker from "../components/ui/DatePicker";
+import Select from "../components/ui/Select";
+import Loader from "../components/ui/Loader";
 
 function AdminDashboard() {
-  const [classId, setClassId] = useState('');
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
+  const [classId, setClassId] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState(null);
 
   const classes = [
-    { value: '1', label: 'CS101 - Web Development' },
-    { value: '2', label: 'CS201 - Data Structures' }
+    { value: "1", label: "CS101 - Web Development" },
+    { value: "2", label: "CS201 - Data Structures" },
   ];
 
   const generateReport = async () => {
     setLoading(true);
     setTimeout(() => {
       setReport({
-        className: classes.find(c => c.value === classId)?.label || 'Selected Class',
+        className:
+          classes.find((c) => c.value === classId)?.label || "Selected Class",
         period: `${from} to ${to}`,
         totalClasses: 15,
         totalPresent: 420,
-        avgAttendance: '93%',
+        avgAttendance: "93%",
         students: [
-          { name: 'John Doe', present: 14, percentage: '93%' },
-          { name: 'Jane Smith', present: 13, percentage: '87%' },
-          { name: 'Mike Johnson', present: 15, percentage: '100%' }
-        ]
+          { name: "John Doe", present: 14, percentage: "93%" },
+          { name: "Jane Smith", present: 13, percentage: "87%" },
+          { name: "Mike Johnson", present: 15, percentage: "100%" },
+        ],
       });
       setLoading(false);
     }, 1500);
@@ -53,12 +54,12 @@ function AdminDashboard() {
           />
           <DatePicker label="From Date" value={from} onChange={setFrom} />
           <DatePicker label="To Date" value={to} onChange={setTo} />
-          <button 
+          <button
             className="btn btn-primary"
             onClick={generateReport}
             disabled={!classId || !from || !to || loading}
           >
-            {loading ? <Loader size="sm" /> : 'Generate Report'}
+            {loading ? <Loader size="sm" /> : "Generate Report"}
           </button>
         </div>
       </section>
@@ -98,9 +99,13 @@ function AdminDashboard() {
                 {report.students.map((student, i) => (
                   <tr key={i}>
                     <td>{student.name}</td>
-                    <td>{student.present}/{report.totalClasses}</td>
                     <td>
-                      <span className="badge success">{student.percentage}</span>
+                      {student.present}/{report.totalClasses}
+                    </td>
+                    <td>
+                      <span className="badge success">
+                        {student.percentage}
+                      </span>
                     </td>
                     <td>
                       <button className="btn btn-ghost btn-sm">Details</button>

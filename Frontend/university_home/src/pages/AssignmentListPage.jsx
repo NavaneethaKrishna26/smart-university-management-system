@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { fetchStudentAssignments } from '../services/assignmentsService';
-import Loader from '../components/ui/Loader';
-import ErrorAlert from '../components/ui/ErrorAlert';
-import AssignmentCard from '../components/assignments/AssignmentCard';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { fetchStudentAssignments } from "../services/assignmentsService";
+import Loader from "../components/ui/Loader";
+import ErrorAlert from "../components/ui/ErrorAlert";
+import AssignmentCard from "../components/assignments/AssignmentCard";
 
 function AssignmentListPage() {
   const { token } = useAuth();
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -17,8 +17,8 @@ function AssignmentListPage() {
       try {
         const data = await fetchStudentAssignments(token); // GET /api/student/assignments[file:2]
         if (mounted) setAssignments(data || []);
-      } catch (e) {
-        if (mounted) setError('Failed to load assignments');
+      } catch {
+        if (mounted) setError("Failed to load assignments");
       } finally {
         if (mounted) setLoading(false);
       }

@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { fetchAttendanceByRange } from '../services/attendanceService';
-import DatePicker from '../components/ui/DatePicker';
-import Select from '../components/ui/Select';
-import Loader from '../components/ui/Loader';
-import ErrorAlert from '../components/ui/ErrorAlert';
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { fetchAttendanceByRange } from "../services/attendanceService";
+import DatePicker from "../components/ui/DatePicker";
+import Select from "../components/ui/Select";
+import Loader from "../components/ui/Loader";
+import ErrorAlert from "../components/ui/ErrorAlert";
 
 function AttendanceHistoryPage() {
   const { token } = useAuth();
-  const [classId, setClassId] = useState('');
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
+  const [classId, setClassId] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // For simplicity, using a static class list; in production fetch from backend for faculty.[file:2]
-  const classesOptions = [{ value: '1', label: 'Class 1' }];
+  const classesOptions = [{ value: "1", label: "Class 1" }];
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setRecords([]);
     setLoading(true);
     try {
       const data = await fetchAttendanceByRange({ classId, from, to }, token); // GET /api/attendance[file:2]
       setRecords(data || []);
-    } catch (e) {
-      setError('Failed to load attendance history');
+    } catch {
+      setError("Failed to load attendance history");
     } finally {
       setLoading(false);
     }

@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { uploadAssignment } from '../services/assignmentsService';
-import FileInput from '../components/ui/FileInput';
-import ErrorAlert from '../components/ui/ErrorAlert';
-import Loader from '../components/ui/Loader';
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { uploadAssignment } from "../services/assignmentsService";
+import FileInput from "../components/ui/FileInput";
+import ErrorAlert from "../components/ui/ErrorAlert";
+import Loader from "../components/ui/Loader";
 
 function AssignmentUploadPage() {
   const { assignmentId } = useParams();
   const { token } = useAuth();
   const navigate = useNavigate();
-  const [courseId, setCourseId] = useState('');
+  const [courseId, setCourseId] = useState("");
   const [file, setFile] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState("");
 
   const handleFileChange = (selected) => {
-    setError('');
+    setError("");
     if (
       selected &&
       ![
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ].includes(selected.type)
     ) {
-      setError('Only PDF or DOC/DOCX files are allowed');
+      setError("Only PDF or DOC/DOCX files are allowed");
       setFile(null);
       return;
     }
@@ -35,14 +35,14 @@ function AssignmentUploadPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccessMsg('');
+    setError("");
+    setSuccessMsg("");
     if (!file) {
-      setError('Please select a file');
+      setError("Please select a file");
       return;
     }
     if (!courseId) {
-      setError('Please enter course ID');
+      setError("Please enter course ID");
       return;
     }
     setUploading(true);
@@ -53,14 +53,19 @@ function AssignmentUploadPage() {
           assignmentId,
           file,
         },
-        token
+        token,
       ); // POST /api/submissions[file:2]
-      setSuccessMsg('Assignment uploaded successfully; AI evaluation will be available soon.');
+      setSuccessMsg(
+        "Assignment uploaded successfully; AI evaluation will be available soon.",
+      );
       if (data && data.submissionId) {
-        setTimeout(() => navigate(`/student/assignments/${data.submissionId}/feedback`), 1000);
+        setTimeout(
+          () => navigate(`/student/assignments/${data.submissionId}/feedback`),
+          1000,
+        );
       }
-    } catch (e) {
-      setError('Upload failed');
+    } catch {
+      setError("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -73,7 +78,9 @@ function AssignmentUploadPage() {
         <p className="muted">Assignment ID: {assignmentId}</p>
         <form className="form" onSubmit={handleSubmit}>
           <ErrorAlert message={error} />
-          {successMsg && <div className="alert alert-success">{successMsg}</div>}
+          {successMsg && (
+            <div className="alert alert-success">{successMsg}</div>
+          )}
           <label className="form-control">
             <span className="form-label">Course ID</span>
             <input
@@ -93,7 +100,7 @@ function AssignmentUploadPage() {
             className="btn btn-primary btn-full"
             disabled={uploading}
           >
-            {uploading ? <Loader /> : 'Upload'}
+            {uploading ? <Loader /> : "Upload"}
           </button>
         </form>
       </div>
