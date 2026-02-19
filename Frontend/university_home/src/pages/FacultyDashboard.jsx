@@ -1,13 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 function FacultyDashboard() {
   return (
     <div className="page">
       <h1>Faculty Dashboard</h1>
-      <p className="muted">
-        Manage and view attendance for your classes.
-      </p>
+      <p className="muted">Manage and view attendance for your classes.</p>
       <div className="cards-grid">
         <article className="card">
           <h3>Mark Attendance</h3>

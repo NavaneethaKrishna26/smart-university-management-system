@@ -30,19 +30,16 @@ function AppRouter() {
 
       {/* Protected routes */}
       <Route
-        path="/student/*"
+        path="/student"
         element={<ProtectedRoute allowedRoles={["STUDENT"]} />}
       >
         <Route index element={<StudentDashboard />} />
-        <Route path="assignments" element={<AssignmentListPage />} />
-        <Route
-          path="assignments/:assignmentId/upload"
-          element={<AssignmentUploadPage />}
-        />
-        <Route
-          path="assignments/:submissionId/feedback"
-          element={<AssignmentFeedbackPage />}
-        />
+        <Route path="assignments" element={<AssignmentUploadPage />} />
+        <Route path="attendance" element={<AttendancePage />} />
+        <Route path="grades" element={<StudentDashboard />} />
+        <Route path="courses" element={<CoursesPage />} />
+        <Route path="profile" element={<div>Profile Page</div>} />
+        <Route path="settings" element={<div>Settings Page</div>} />
       </Route>
 
       <Route
