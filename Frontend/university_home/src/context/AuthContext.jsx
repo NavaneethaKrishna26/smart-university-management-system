@@ -21,16 +21,28 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (credentials) => {
-    const data = await loginRequest(credentials); // POST /api/auth/login[file:2]
-    setToken(data.token);
-    setRole(data.role);
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('role', data.role);
-    if (data.role === 'STUDENT') navigate('/student');
-    else if (data.role === 'FACULTY') navigate('/faculty');
-    else if (data.role === 'ADMIN') navigate('/admin');
-    else navigate('/');
-  };
+  const data = await loginRequest(credentials);
+
+  console.log("Login response:", data); // DEBUG
+
+  // Extract role properly (important!)
+  const userRole =
+    typeof data.role === "string"
+      ? data.role
+      : data.role?.name;
+
+  setToken(data.token);
+  setRole(userRole);
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("role", userRole);
+
+  // Redirect
+  if (userRole === "STUDENT") navigate("/student");
+  else if (userRole === "FACULTY") navigate("/faculty");
+  else if (userRole === "ADMIN") navigate("/admin");
+  else navigate("/");
+};
 
   const logout = () => {
     setToken(null);
